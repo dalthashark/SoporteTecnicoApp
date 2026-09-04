@@ -37,6 +37,16 @@
                 android:textColor="?attr/colorPrimary"/>
 
             <TextView
+                android:id="@+id/tvOrdenCliente"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cliente: Juan Pérez"
+                android:textSize="12sp"
+                android:textStyle="italic"
+                android:textColor="?attr/colorSecondary"
+                android:layout_marginTop="2dp"/>
+
+            <TextView
                 android:id="@+id/tvOrdenEstado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

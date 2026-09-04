@@ -36,68 +36,112 @@
                 android:textStyle="bold"
                 android:textColor="?attr/colorPrimary" />
 
-            <EditText
-                android:id="@+id/etTipoEquipo"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Tipo (Ej: Laptop, Macbook)"
-                android:layout_marginTop="8dp"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textColorHint="?android:attr/textColorSecondary"
-                android:background="@android:drawable/edit_text"
-                android:padding="12dp" />
+                android:layout_marginTop="10dp"
+                android:hint="Tipo (Ej: Laptop, Macbook)">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTipoEquipo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etModelo"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Marca y Modelo"
-                android:layout_marginTop="8dp"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textColorHint="?android:attr/textColorSecondary"
-                android:background="@android:drawable/edit_text"
-                android:padding="12dp" />
+                android:layout_marginTop="12dp"
+                android:hint="Marca y Modelo">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etModelo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Estado de Componentes"
+                android:text="Estado de Componentes (Seleccionar)"
                 android:textStyle="bold"
                 android:textColor="?attr/colorPrimary"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="24dp"/>
 
-            <EditText
-                android:id="@+id/etStatusPantalla"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Estado Pantalla (Ej: OK, Rota)"
-                android:layout_marginTop="8dp"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textColorHint="?android:attr/textColorSecondary"
-                android:background="@android:drawable/edit_text"
-                android:padding="12dp" />
+            <!-- Dropdown Fields for Components -->
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="10dp" android:hint="Pantalla">
+                <AutoCompleteTextView android:id="@+id/acPantalla" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etStatusPlaca"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Estado Placa Madre"
-                android:layout_marginTop="8dp"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textColorHint="?android:attr/textColorSecondary"
-                android:background="@android:drawable/edit_text"
-                android:padding="12dp" />
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Batería">
+                <AutoCompleteTextView android:id="@+id/acBateria" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <EditText
-                android:id="@+id/etStatusBateria"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Estado Batería"
-                android:layout_marginTop="8dp"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textColorHint="?android:attr/textColorSecondary"
-                android:background="@android:drawable/edit_text"
-                android:padding="12dp" />
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Teclado">
+                <AutoCompleteTextView android:id="@+id/acTeclado" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Touchpad">
+                <AutoCompleteTextView android:id="@+id/acTouchpad" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Cargador">
+                <AutoCompleteTextView android:id="@+id/acCargador" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Placa Madre">
+                <AutoCompleteTextView android:id="@+id/acPlacaMadre" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Procesador">
+                <AutoCompleteTextView android:id="@+id/acProcesador" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Memoria RAM">
+                <AutoCompleteTextView android:id="@+id/acMemoria" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Disco Duro / SSD">
+                <AutoCompleteTextView android:id="@+id/acDisco" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Carcasa Superior">
+                <AutoCompleteTextView android:id="@+id/acCarcasaSup" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Carcasa Inferior">
+                <AutoCompleteTextView android:id="@+id/acCarcasaInf" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Bisagras">
+                <AutoCompleteTextView android:id="@+id/acBisagras" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Cámara Web">
+                <AutoCompleteTextView android:id="@+id/acCamara" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Wifi / BT">
+                <AutoCompleteTextView android:id="@+id/acWifi" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Puerto de Carga">
+                <AutoCompleteTextView android:id="@+id/acPuertoCarga" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Tarjeta de Video">
+                <AutoCompleteTextView android:id="@+id/acVideo" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Altavoces / Parlantes">
+                <AutoCompleteTextView android:id="@+id/acAltavoces" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="8dp" android:hint="Micrófono">
+                <AutoCompleteTextView android:id="@+id/acMicrofono" android:layout_width="match_parent" android:layout_height="wrap_content" android:inputType="none" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -105,31 +149,32 @@
                 android:text="Datos de la Compra"
                 android:textStyle="bold"
                 android:textColor="?attr/colorPrimary"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="24dp"/>
 
-            <EditText
-                android:id="@+id/etMontoCompra"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Monto Pagado S/."
-                android:inputType="numberDecimal"
-                android:layout_marginTop="8dp"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textColorHint="?android:attr/textColorSecondary"
-                android:background="@android:drawable/edit_text"
-                android:padding="12dp" />
+                android:layout_marginTop="10dp"
+                android:hint="Monto Pagado S/.">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etMontoCompra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <Button
                 android:id="@+id/btnGuardar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="REGISTRAR EN LABORATORIO"
+                android:text="GUARDAR EN LABORATORIO"
                 android:textColor="?attr/colorOnPrimary"
                 android:backgroundTint="?attr/colorPrimary"
                 android:textStyle="bold"
                 android:padding="15dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="80dp"/>
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="120dp"/>
 
         </LinearLayout>
     </ScrollView>

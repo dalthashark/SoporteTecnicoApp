@@ -29,6 +29,16 @@ class LoginActivity : AppCompatActivity() {
                 db.categoriaDao().insert(com.mantenimiento.soportetecnicoapp.data.entity.CategoriaEntity(Nombre_c = "General"))
                 db.marcaDao().insert(com.mantenimiento.soportetecnicoapp.data.entity.MarcaEntity(Nombre_m = "Genérica"))
                 
+                // Cliente especial para el Almacén/Laboratorio (ID 1 siempre para la empresa)
+                db.clienteDao().insert(com.mantenimiento.soportetecnicoapp.data.entity.ClienteEntity(
+                    Id_cl = 1,
+                    Nombre_cl = "DATALAB (ALMACÉN)",
+                    Tipo_doc = "RUC",
+                    Num_doc = "20000000000",
+                    Telefono = "000000000",
+                    Correo = "almacen@datalab.com"
+                ))
+
                 // Usuario Admin Profesional
                 db.usuarioDao().insert(UsuarioEntity(
                     username = "admin", 

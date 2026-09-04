@@ -12,4 +12,7 @@ interface RepuestoOrdenDao : BaseDao<RepuestoOrdenEntity> {
 
     @Query("SELECT * FROM repuesto_orden WHERE Id_ro = :id")
     suspend fun getById(id: Int): RepuestoOrdenEntity?
+
+    @Query("SELECT * FROM repuesto_orden WHERE Id_os = :idOs")
+    fun getByOrden(idOs: Int): Flow<List<RepuestoOrdenEntity>>
 }

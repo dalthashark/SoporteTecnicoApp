@@ -8,34 +8,75 @@
     app:cardCornerRadius="8dp"
     app:cardBackgroundColor="?attr/colorSurface">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tvNombreItem"
+        <LinearLayout
+            android:id="@+id/layoutInfo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/layoutAcciones">
+
+            <TextView
+                android:id="@+id/tvNombreItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nombre Cliente"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textColor="?attr/colorPrimary"/>
+
+            <TextView
+                android:id="@+id/tvTelefonoItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Teléfono: 999999999"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+                android:id="@+id/tvCorreoItem"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Correo: cliente@email.com"
+                android:layout_marginTop="2dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutAcciones"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre Cliente"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="?attr/colorPrimary"/>
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:id="@+id/tvTelefonoItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Teléfono: 999999999"
-            android:layout_marginTop="4dp"/>
+            <ImageView
+                android:id="@+id/btnEditarCliente"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:padding="4dp"
+                android:src="@android:drawable/ic_menu_edit"
+                app:tint="?attr/colorPrimary"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground" />
 
-        <TextView
-            android:id="@+id/tvCorreoItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Correo: cliente@email.com"
-            android:layout_marginTop="2dp"/>
+            <ImageView
+                android:id="@+id/btnEliminarCliente"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="8dp"
+                android:padding="4dp"
+                android:src="@android:drawable/ic_menu_delete"
+                app:tint="@color/error_red"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground" />
+        </LinearLayout>
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

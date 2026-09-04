@@ -44,6 +44,16 @@
                 android:alignmentMode="alignMargins">
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/cardVenta"
+                    style="@style/DashboardCard"
+                    android:layout_columnWeight="1">
+                    <LinearLayout style="@style/DashboardCardContent">
+                        <ImageView style="@style/DashboardIcon" android:src="@android:drawable/ic_menu_save" />
+                        <TextView style="@style/DashboardText" android:text="REG. VENTA" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
                     android:id="@+id/cardNuevaOrden"
                     style="@style/DashboardCard"
                     android:layout_columnWeight="1">
@@ -154,6 +164,16 @@
                     <LinearLayout style="@style/DashboardCardContent">
                         <ImageView style="@style/DashboardIcon" android:src="@android:drawable/ic_menu_today" />
                         <TextView style="@style/DashboardText" android:text="ASISTENCIA" />
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardTaller"
+                    style="@style/DashboardCard"
+                    android:layout_columnWeight="1">
+                    <LinearLayout style="@style/DashboardCardContent">
+                        <ImageView style="@style/DashboardIcon" android:src="@android:drawable/ic_menu_preferences" />
+                        <TextView style="@style/DashboardText" android:text="TALLER / REPAR." />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 

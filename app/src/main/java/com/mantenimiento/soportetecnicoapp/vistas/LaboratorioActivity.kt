@@ -1,11 +1,13 @@
 package com.mantenimiento.soportetecnicoapp.vistas
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.mantenimiento.soportetecnicoapp.data.AppDatabase
 import com.mantenimiento.soportetecnicoapp.databinding.ActivityLaboratorioBinding
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 
 class LaboratorioActivity : AppCompatActivity() {
@@ -25,7 +27,11 @@ class LaboratorioActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        adapter = LaboratorioAdapter(emptyList())
+        adapter = LaboratorioAdapter(emptyList()) { item ->
+            val intent = Intent(this, RegistroLaboratorioActivity::class.java)
+            intent.putExtra("ECD_ID", item.Id_ecd)
+            startActivity(intent)
+        }
         binding.rvLaboratorio.layoutManager = LinearLayoutManager(this)
         binding.rvLaboratorio.adapter = adapter
 
@@ -35,8 +41,17 @@ class LaboratorioActivity : AppCompatActivity() {
     private fun cargarLaboratorio() {
         val db = AppDatabase.getDatabase(this)
         lifecycleScope.launch {
-            db.estadoComponentesDesarmeDao().getAll().collect { lista ->
-                adapter.updateData(lista)
+            // Combinar los datos de componentes con los datos del equipo para mostrar el nombre
+            combine(
+                db.estadoComponentesDesarmeDao().getAll(),
+                db.equipoClienteDao().getAll()
+            ) { listaEcd, listaEq ->
+                listaEcd.map { ecd ->
+                    val equipo = listaEq.find { it.Id_eq == ecd.Id_eq }
+                    LaboratorioAdapter.LabItemData(ecd, equipo)
+                }
+            }.collect { listaData ->
+                adapter.updateData(listaData)
             }
         }
     }

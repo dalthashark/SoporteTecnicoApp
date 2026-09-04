@@ -19,6 +19,16 @@
     <color name="bg_dark_navy">#102027</color> <!-- Deep Navy instead of Black -->
     <color name="surface_dark_slate">#263238</color> <!-- Slate for cards -->
 
+    <!-- Attendance Colors Light -->
+    <color name="asis_asistio_light">#E8F5E9</color>
+    <color name="asis_falta_light">#FFEBEE</color>
+    <color name="asis_justificado_light">#FFFDE7</color>
+
+    <!-- Attendance Colors Dark -->
+    <color name="asis_asistio_dark">#0A2D0C</color>
+    <color name="asis_falta_dark">#3D0B0B</color>
+    <color name="asis_justificado_dark">#443605</color>
+
     <!-- UI Elements -->
     <color name="error_red">#D32F2F</color>
     <color name="text_grey_hint">#757575</color>

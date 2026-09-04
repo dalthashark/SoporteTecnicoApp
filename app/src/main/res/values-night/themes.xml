@@ -10,6 +10,7 @@
         <item name="colorSurfaceVariant">#37474F</item>
 
         <!-- Force high contrast text for inputs in Dark Mode -->
+        <item name="editTextColor">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
         <item name="android:textColorSecondary">#B0BEC5</item>

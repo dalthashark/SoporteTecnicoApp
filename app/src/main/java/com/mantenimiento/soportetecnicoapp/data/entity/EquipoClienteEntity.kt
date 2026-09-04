@@ -32,5 +32,8 @@ data class EquipoClienteEntity(
     val Modelo: String,
     val Num_serie: String,
     val Características: String,
-    val Estado_propiedad: String
+    val Estado_propiedad: String,
+    val Procesador: String? = null,
+    val RAM: String? = null,
+    val Estado_Bateria: String? = null
 )
