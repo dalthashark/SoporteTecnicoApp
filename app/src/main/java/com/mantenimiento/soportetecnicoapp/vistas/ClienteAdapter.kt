@@ -8,7 +8,9 @@ import com.mantenimiento.soportetecnicoapp.databinding.ItemClienteBinding
 
 class ClienteAdapter(
     private var clientes: List<ClienteEntity>,
-    private val onItemClick: (ClienteEntity) -> Unit
+    private val onItemClick: (ClienteEntity) -> Unit,
+    private val onEditClick: (ClienteEntity) -> Unit,
+    private val onDeleteClick: (ClienteEntity) -> Unit
 ) : RecyclerView.Adapter<ClienteAdapter.ClienteViewHolder>() {
 
     class ClienteViewHolder(val binding: ItemClienteBinding) : RecyclerView.ViewHolder(binding.root)
@@ -26,6 +28,14 @@ class ClienteAdapter(
 
         holder.itemView.setOnClickListener {
             onItemClick(cliente)
+        }
+
+        holder.binding.btnEditarCliente.setOnClickListener {
+            onEditClick(cliente)
+        }
+
+        holder.binding.btnEliminarCliente.setOnClickListener {
+            onDeleteClick(cliente)
         }
     }
 

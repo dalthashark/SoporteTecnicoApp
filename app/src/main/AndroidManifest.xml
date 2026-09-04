@@ -55,6 +55,14 @@
             android:exported="false"
             android:label="Control Asistencia" />
         <activity
+            android:name=".vistas.TallerActivity"
+            android:exported="false"
+            android:label="Taller de Reparaciones" />
+        <activity
+            android:name=".vistas.GestionMantenimientoActivity"
+            android:exported="false"
+            android:label="Gestión de Orden" />
+        <activity
             android:name=".vistas.RegistroClienteActivity"
             android:exported="false"
             android:label="Registrar Cliente" />
@@ -62,6 +70,14 @@
             android:name=".vistas.RegistroLaboratorioActivity"
             android:exported="false"
             android:label="Registrar Laptop Laboratorio" />
+        <activity
+            android:name=".vistas.RegistroEquipoActivity"
+            android:exported="false"
+            android:label="Ficha Técnica" />
+        <activity
+            android:name=".vistas.RegistroVentaActivity"
+            android:exported="false"
+            android:label="Nueva Venta / Servicio" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

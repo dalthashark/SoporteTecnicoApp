@@ -4,24 +4,91 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:cardCornerRadius="4dp"
+    app:cardCornerRadius="8dp"
     app:cardBackgroundColor="?attr/colorSurface">
-    <LinearLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
-        <TextView
-            android:id="@+id/tvEquipoNombre"
-            android:layout_width="wrap_content"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:id="@+id/layoutInfoEq"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Laptop Asus"
-            android:textStyle="bold"
-            android:textColor="?attr/colorPrimary" />
-        <TextView
-            android:id="@+id/tvEquipoSerie"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Serie: SN123" />
-    </LinearLayout>
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/btnEditarEquipo">
+
+            <TextView
+                android:id="@+id/tvEquipoNombre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Laptop Asus"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:textColor="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/tvEquipoSerie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nro Serie: SN123"
+                android:textSize="12sp"
+                android:layout_marginTop="2dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?attr/colorSurfaceVariant"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2">
+
+                <TextView
+                    android:id="@+id/tvEquipoProcesador"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:text="CPU: Core i7"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tvEquipoRAM"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:text="RAM: 16GB"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/tvEquipoBateria"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:text="Batería: OK"
+                    android:textSize="11sp"
+                    android:layout_marginTop="4dp" />
+            </GridLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/btnEditarEquipo"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:padding="4dp"
+            android:src="@android:drawable/ic_menu_edit"
+            app:tint="?attr/colorPrimary"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

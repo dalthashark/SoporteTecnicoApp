@@ -6,8 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mantenimiento.soportetecnicoapp.data.entity.EquipoClienteEntity
 import com.mantenimiento.soportetecnicoapp.databinding.ItemEquipoBinding
 
-class EquipoAdapter(private val equipos: List<EquipoClienteEntity>) :
-    RecyclerView.Adapter<EquipoAdapter.EquipoViewHolder>() {
+class EquipoAdapter(
+    private val equipos: List<EquipoClienteEntity>,
+    private val onEditClick: ((EquipoClienteEntity) -> Unit)? = null
+) : RecyclerView.Adapter<EquipoAdapter.EquipoViewHolder>() {
 
     class EquipoViewHolder(val binding: ItemEquipoBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -20,6 +22,14 @@ class EquipoAdapter(private val equipos: List<EquipoClienteEntity>) :
         val equipo = equipos[position]
         holder.binding.tvEquipoNombre.text = "${equipo.Tipo_equipo} ${equipo.Modelo}"
         holder.binding.tvEquipoSerie.text = "Serie: ${equipo.Num_serie}"
+        
+        holder.binding.tvEquipoProcesador.text = "CPU: ${equipo.Procesador ?: "N/A"}"
+        holder.binding.tvEquipoRAM.text = "RAM: ${equipo.RAM ?: "N/A"}"
+        holder.binding.tvEquipoBateria.text = "Batería: ${equipo.Estado_Bateria ?: "N/A"}"
+
+        holder.binding.btnEditarEquipo.setOnClickListener {
+            onEditClick?.invoke(equipo)
+        }
     }
 
     override fun getItemCount(): Int = equipos.size

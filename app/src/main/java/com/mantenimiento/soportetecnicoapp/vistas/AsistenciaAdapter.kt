@@ -1,5 +1,6 @@
 package com.mantenimiento.soportetecnicoapp.vistas
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
 import android.view.LayoutInflater
@@ -7,8 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
+import com.mantenimiento.soportetecnicoapp.R
 import com.mantenimiento.soportetecnicoapp.data.entity.AsistenciaEntity
 import com.mantenimiento.soportetecnicoapp.data.entity.TecnicoEntity
 import com.mantenimiento.soportetecnicoapp.databinding.ItemAsistenciaBinding
@@ -43,7 +46,7 @@ class AsistenciaAdapter(
         applyStatusUi(holder, item.asistenciaHoy?.estado)
         
         // Cargar historial visual (puntos de colores)
-        renderHistorialVisual(holder.binding.layoutHistorialSemanal, item.historialSemanal)
+        renderHistorialVisual(holder.binding.layoutHistorialSemanal, item)
 
         // Motivo y Foto de hoy si existen
         item.asistenciaHoy?.let { asis ->
@@ -84,16 +87,47 @@ class AsistenciaAdapter(
         }
     }
 
-    private fun renderHistorialVisual(layout: LinearLayout, historial: List<AsistenciaEntity>) {
+    private fun renderHistorialVisual(layout: LinearLayout, item: AsistenciaData) {
         layout.removeAllViews()
         val context = layout.context
-        val sdf = SimpleDateFormat("EE", Locale.getDefault()) // "Lun", "Mar", etc.
+        val historial = item.historialSemanal
+        val diasProgramados = item.tecnico.Dias_trabajo ?: ""
 
-        // Mostrar últimos 7 días
+        // Configurar para que empiece el Lunes de la semana actual
         val calendar = Calendar.getInstance()
-        calendar.add(Calendar.DAY_OF_YEAR, -6) // Empezar hace 6 días
+        calendar.firstDayOfWeek = Calendar.MONDAY
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+
+        // Mapa de abreviaturas en español
+        val diasMap = mapOf(
+            Calendar.MONDAY to "LU",
+            Calendar.TUESDAY to "MA",
+            Calendar.WEDNESDAY to "MI",
+            Calendar.THURSDAY to "JU",
+            Calendar.FRIDAY to "VI",
+            Calendar.SATURDAY to "SA",
+            Calendar.SUNDAY to "DO"
+        )
+        
+        // Mapa para verificar con Dias_trabajo (que usa "Lun", "Mar", etc)
+        val checkMap = mapOf(
+            Calendar.MONDAY to "Lun",
+            Calendar.TUESDAY to "Mar",
+            Calendar.WEDNESDAY to "Mié",
+            Calendar.THURSDAY to "Jue",
+            Calendar.FRIDAY to "Vie",
+            Calendar.SATURDAY to "Sáb",
+            Calendar.SUNDAY to "Dom"
+        )
 
         for (i in 0..6) {
+            val dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK)
+            val esDiaLaboral = diasProgramados.contains(checkMap[dayOfWeek] ?: "")
+
             val dayLayout = LinearLayout(context).apply {
                 orientation = LinearLayout.VERTICAL
                 gravity = android.view.Gravity.CENTER
@@ -101,12 +135,19 @@ class AsistenciaAdapter(
             }
 
             val dayLabel = TextView(context).apply {
-                text = sdf.format(calendar.time).first().toString() // "L", "M", etc.
+                text = diasMap[dayOfWeek]
                 textSize = 10f
                 gravity = android.view.Gravity.CENTER
+                setTextColor(ContextCompat.getColor(context, if (isDarkMode(context)) R.color.white else R.color.black))
+                
+                // Resaltar el día de hoy con negrita
+                val hoyCal = Calendar.getInstance()
+                if (hoyCal.get(Calendar.DAY_OF_YEAR) == calendar.get(Calendar.DAY_OF_YEAR)) {
+                    setTypeface(null, android.graphics.Typeface.BOLD)
+                    textSize = 11f
+                }
             }
 
-            // Buscar asistencia para esta fecha exacta (normalizada a las 00:00)
             val dateRef = calendar.timeInMillis / (1000 * 60 * 60 * 24)
             val asisDia = historial.find { (it.fecha / (1000 * 60 * 60 * 24)) == dateRef }
 
@@ -116,12 +157,20 @@ class AsistenciaAdapter(
                 
                 val drawable = android.graphics.drawable.GradientDrawable().apply {
                     shape = android.graphics.drawable.GradientDrawable.OVAL
-                    setColor(when (asisDia?.estado) {
-                        "ASISTIÓ" -> Color.parseColor("#4CAF50")
-                        "FALTA" -> Color.parseColor("#F44336")
-                        "JUSTIFICADO" -> Color.parseColor("#FFC107")
-                        else -> Color.parseColor("#BDBDBD") // Gris si no hay registro
-                    })
+                    
+                    val color = when {
+                        asisDia?.estado == "ASISTIÓ" -> Color.parseColor("#4CAF50") // Verde
+                        asisDia?.estado == "FALTA" -> Color.parseColor("#F44336") // Rojo
+                        asisDia?.estado == "JUSTIFICADO" -> Color.parseColor("#FFC107") // Amarillo
+                        !esDiaLaboral -> Color.parseColor("#BDBDBD") // Gris (No le toca venir)
+                        else -> Color.parseColor("#E0E0E0") // Gris muy claro (Día laboral pendiente)
+                    }
+                    setColor(color)
+                    
+                    // Si no le toca venir, le ponemos un borde o menos opacidad para diferenciar
+                    if (!esDiaLaboral && asisDia == null) {
+                        alpha = 150
+                    }
                 }
                 background = drawable
             }
@@ -129,7 +178,6 @@ class AsistenciaAdapter(
             dayLayout.addView(dayLabel)
             dayLayout.addView(indicator)
             layout.addView(dayLayout)
-            
             calendar.add(Calendar.DAY_OF_YEAR, 1)
         }
     }
@@ -143,32 +191,48 @@ class AsistenciaAdapter(
     }
 
     private fun applyStatusUi(holder: AsistenciaViewHolder, estado: String?) {
+        val context = holder.itemView.context
+        val isDark = isDarkMode(context)
+        
+        // Ajustar color de texto de los RadioButtons para visibilidad
+        val textColor = if (isDark) Color.WHITE else Color.BLACK
+        holder.binding.rbAsistio.setTextColor(textColor)
+        holder.binding.rbFalta.setTextColor(textColor)
+        holder.binding.rbJustificado.setTextColor(textColor)
+
         when (estado) {
             "ASISTIÓ" -> {
-                holder.binding.cardAsistenciaItem.setCardBackgroundColor(Color.parseColor("#E8F5E9"))
+                val color = ContextCompat.getColor(context, if (isDark) R.color.asis_asistio_dark else R.color.asis_asistio_light)
+                holder.binding.cardAsistenciaItem.setCardBackgroundColor(color)
                 holder.binding.layoutJustificacion.visibility = View.GONE
                 holder.binding.btnGuardarFicha.visibility = View.GONE
                 holder.binding.rbAsistio.isChecked = true
             }
             "FALTA" -> {
-                holder.binding.cardAsistenciaItem.setCardBackgroundColor(Color.parseColor("#FFEBEE"))
+                val color = ContextCompat.getColor(context, if (isDark) R.color.asis_falta_dark else R.color.asis_falta_light)
+                holder.binding.cardAsistenciaItem.setCardBackgroundColor(color)
                 holder.binding.layoutJustificacion.visibility = View.GONE
                 holder.binding.btnGuardarFicha.visibility = View.GONE
                 holder.binding.rbFalta.isChecked = true
             }
             "JUSTIFICADO" -> {
-                holder.binding.cardAsistenciaItem.setCardBackgroundColor(Color.parseColor("#FFFDE7"))
+                val color = ContextCompat.getColor(context, if (isDark) R.color.asis_justificado_dark else R.color.asis_justificado_light)
+                holder.binding.cardAsistenciaItem.setCardBackgroundColor(color)
                 holder.binding.layoutJustificacion.visibility = View.VISIBLE
                 holder.binding.btnGuardarFicha.visibility = View.VISIBLE
                 holder.binding.rbJustificado.isChecked = true
             }
             else -> {
-                holder.binding.cardAsistenciaItem.setCardBackgroundColor(Color.WHITE)
+                holder.binding.cardAsistenciaItem.setCardBackgroundColor(ContextCompat.getColor(context, if (isDark) R.color.surface_dark_slate else R.color.surface_light))
                 holder.binding.layoutJustificacion.visibility = View.GONE
                 holder.binding.btnGuardarFicha.visibility = View.GONE
                 holder.binding.rgEstado.clearCheck()
             }
         }
+    }
+
+    private fun isDarkMode(context: android.content.Context): Boolean {
+        return context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_YES
     }
 
     override fun getItemCount(): Int = data.size

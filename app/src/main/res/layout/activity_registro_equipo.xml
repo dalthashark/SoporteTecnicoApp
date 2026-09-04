@@ -6,14 +6,14 @@
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground"
     android:fitsSystemWindows="true"
-    tools:context=".vistas.RegistroClienteActivity">
+    tools:context=".vistas.RegistroEquipoActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
-        app:title="Registrar Nuevo Cliente"
+        app:title="Ficha Técnica del Equipo"
         app:titleTextColor="?attr/colorOnPrimary"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,25 +34,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:hint="Nombre Completo / Razón Social">
+                android:hint="Marca y Modelo">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etNombre"
+                    android:id="@+id/etModelo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textPersonName" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:hint="Tipo de Documento">
-                <AutoCompleteTextView
-                    android:id="@+id/acTipoDoc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="none" />
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -60,13 +47,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Número de Documento">
+                android:hint="Número de Serie">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etNumDoc"
+                    android:id="@+id/etSerie"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="number"
-                    android:maxLength="11" />
+                    android:inputType="text" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -74,13 +60,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Teléfono de Contacto">
+                android:hint="Procesador">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etTelefono"
+                    android:id="@+id/etProcesador"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="phone"
-                    android:maxLength="9" />
+                    android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -88,24 +72,47 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Correo Electrónico">
+                android:hint="Memoria RAM">
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCorreo"
+                    android:id="@+id/etRAM"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Estado de Batería">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etBateria"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:hint="Otras Características">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etExtra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress" />
+                    android:inputType="textMultiLine"
+                    android:lines="3" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
-                android:id="@+id/btnGuardar"
+                android:id="@+id/btnActualizar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="REGISTRAR CLIENTE"
-                android:textColor="?attr/colorOnPrimary"
-                android:backgroundTint="?attr/colorPrimary"
-                android:textStyle="bold"
+                android:text="ACTUALIZAR FICHA TÉCNICA"
+                android:layout_marginTop="32dp"
                 android:padding="15dp"
-                android:layout_marginTop="30dp"
+                android:textStyle="bold"
                 android:layout_marginBottom="100dp"/>
 
         </LinearLayout>

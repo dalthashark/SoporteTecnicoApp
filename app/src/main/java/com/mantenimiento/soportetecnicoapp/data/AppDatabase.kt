@@ -25,7 +25,7 @@ import com.mantenimiento.soportetecnicoapp.data.entity.*
         UsuarioEntity::class,
         AsistenciaEntity::class
     ],
-    version = 10,
+    version = 13,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

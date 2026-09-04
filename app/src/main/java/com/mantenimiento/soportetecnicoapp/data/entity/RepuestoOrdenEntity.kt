@@ -27,7 +27,8 @@ data class RepuestoOrdenEntity(
     @PrimaryKey(autoGenerate = true)
     val Id_ro: Int = 0,
     val Id_os: Int,
-    val Id_p: Int,
+    val Id_p: Int? = null, // Opcional si es un repuesto no inventariado
+    val Nombre_repuesto: String, // "Batería HP", "Ventilador", etc.
     val Cantidad: Int,
     val Precio_unitario: Double
 )

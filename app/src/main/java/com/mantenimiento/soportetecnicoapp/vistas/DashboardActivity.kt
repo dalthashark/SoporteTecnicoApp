@@ -15,6 +15,10 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Configurar navegación
+        binding.cardVenta.setOnClickListener {
+            startActivity(Intent(this, RegistroVentaActivity::class.java))
+        }
+
         binding.cardNuevaOrden.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }
@@ -45,6 +49,10 @@ class DashboardActivity : AppCompatActivity() {
 
         binding.cardAsistencia.setOnClickListener {
             startActivity(Intent(this, AsistenciaActivity::class.java))
+        }
+
+        binding.cardTaller.setOnClickListener {
+            startActivity(Intent(this, TallerActivity::class.java))
         }
     }
 }

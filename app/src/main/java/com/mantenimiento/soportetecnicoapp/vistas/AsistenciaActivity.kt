@@ -1,5 +1,6 @@
 package com.mantenimiento.soportetecnicoapp.vistas
 
+import android.app.DatePickerDialog
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -12,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.mantenimiento.soportetecnicoapp.data.AppDatabase
 import com.mantenimiento.soportetecnicoapp.data.entity.AsistenciaEntity
 import com.mantenimiento.soportetecnicoapp.databinding.ActivityAsistenciaBinding
-import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
 import java.text.SimpleDateFormat
@@ -27,20 +28,24 @@ class AsistenciaActivity : AppCompatActivity() {
     private var itemParaFoto: AsistenciaAdapter.AsistenciaData? = null
     private var currentPhotoPath: String? = null
     private var fotoUri: Uri? = null
-
-    private val hoy: Long by lazy {
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.HOUR_OF_DAY, 0)
-        cal.set(Calendar.MINUTE, 0)
-        cal.set(Calendar.SECOND, 0)
-        cal.set(Calendar.MILLISECOND, 0)
-        cal.timeInMillis
+    
+    private var calendarSeleccionado = Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, 0)
+        set(Calendar.MINUTE, 0)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
     }
+    
+    private var jobCarga: Job? = null
 
     private val takePictureLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
         if (success) {
             itemParaFoto?.let { data ->
-                val asis = data.asistenciaHoy ?: AsistenciaEntity(id_tecnico = data.tecnico.Id_t, fecha = hoy, estado = "JUSTIFICADO")
+                val asis = data.asistenciaHoy ?: AsistenciaEntity(
+                    id_tecnico = data.tecnico.Id_t, 
+                    fecha = calendarSeleccionado.timeInMillis, 
+                    estado = "JUSTIFICADO"
+                )
                 data.asistenciaHoy = asis.copy(foto_justificacion_path = currentPhotoPath)
                 adapter.notifyDataSetChanged()
             }
@@ -61,8 +66,10 @@ class AsistenciaActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
-        binding.tvFechaHoy.text = "Fecha: ${sdf.format(Date(hoy))}"
+        // Configurar Navegación de Fecha
+        binding.btnFechaAnterior.setOnClickListener { cambiarFecha(-1) }
+        binding.btnFechaSiguiente.setOnClickListener { cambiarFecha(1) }
+        binding.btnCalendario.setOnClickListener { mostrarDatePicker() }
 
         adapter = AsistenciaAdapter(
             emptyList(),
@@ -75,6 +82,44 @@ class AsistenciaActivity : AppCompatActivity() {
         binding.rvAsistencia.layoutManager = LinearLayoutManager(this)
         binding.rvAsistencia.adapter = adapter
 
+        actualizarUIFecha()
+    }
+
+    private fun cambiarFecha(dias: Int) {
+        calendarSeleccionado.add(Calendar.DAY_OF_YEAR, dias)
+        actualizarUIFecha()
+    }
+
+    private fun mostrarDatePicker() {
+        val dpd = DatePickerDialog(this, { _, year, month, day ->
+            calendarSeleccionado.set(year, month, day)
+            actualizarUIFecha()
+        }, calendarSeleccionado.get(Calendar.YEAR), calendarSeleccionado.get(Calendar.MONTH), calendarSeleccionado.get(Calendar.DAY_OF_MONTH))
+        dpd.show()
+    }
+
+    private fun actualizarUIFecha() {
+        val sdf = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+        val fechaStr = sdf.format(calendarSeleccionado.time)
+        binding.tvFechaHoy.text = fechaStr
+
+        // Determinar etiqueta (Hoy, Ayer, etc)
+        val hoy = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, 0)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+        }
+        
+        val diff = ((calendarSeleccionado.timeInMillis - hoy.timeInMillis) / (24 * 60 * 60 * 1000)).toInt()
+        
+        binding.tvEtiquetaHoy.text = when (diff) {
+            0 -> "Hoy"
+            -1 -> "Ayer"
+            -2 -> "Anteayer"
+            else -> if (diff > 0) "Próximo" else "Registro"
+        }
+        
         cargarDatos()
     }
 
@@ -97,21 +142,42 @@ class AsistenciaActivity : AppCompatActivity() {
     }
 
     private fun cargarDatos() {
-        lifecycleScope.launch {
-            // Obtener todos los técnicos
+        jobCarga?.cancel() // Cancelar carga anterior si existe
+        val fechaBusqueda = calendarSeleccionado.timeInMillis
+        
+        // Obtener el día de la semana actual para filtrar (Lun, Mar, etc.)
+        val checkMap = mapOf(
+            Calendar.MONDAY to "Lun",
+            Calendar.TUESDAY to "Mar",
+            Calendar.WEDNESDAY to "Mié",
+            Calendar.THURSDAY to "Jue",
+            Calendar.FRIDAY to "Vie",
+            Calendar.SATURDAY to "Sáb",
+            Calendar.SUNDAY to "Dom"
+        )
+        val diaNombreHoy = checkMap[calendarSeleccionado.get(Calendar.DAY_OF_WEEK)] ?: ""
+        
+        jobCarga = lifecycleScope.launch {
             db.tecnicoDao().getAll().collect { listaTecnicos ->
+                // FILTRO: Solo mostrar personal que tenga programado este día de la semana
+                val tecnicosFiltrados = listaTecnicos.filter { 
+                    it.Dias_trabajo?.contains(diaNombreHoy) == true 
+                }
+                
                 val listaData = mutableListOf<AsistenciaAdapter.AsistenciaData>()
                 
-                for (tecnico in listaTecnicos) {
-                    // Para cada técnico, obtener su historial completo para filtrar hoy y la semana
+                for (tecnico in tecnicosFiltrados) {
                     db.asistenciaDao().getHistorialPorTecnico(tecnico.Id_t).collect { historial ->
-                        val asisHoy = historial.find { it.fecha == hoy }
+                        val asisHoy = historial.find { it.fecha == fechaBusqueda }
                         
-                        // Últimos 7 días para el visual
-                        val inicioSemana = hoy - (7 * 24 * 60 * 60 * 1000)
-                        val semanal = historial.filter { it.fecha >= inicioSemana }
+                        // Historial de la semana relativa a la fecha seleccionada
+                        val calSemana = calendarSeleccionado.clone() as Calendar
+                        calSemana.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                        val inicioSemana = calSemana.timeInMillis
+                        val finSemana = inicioSemana + (7 * 24 * 60 * 60 * 1000)
                         
-                        // Actualizar o añadir a la lista
+                        val semanal = historial.filter { it.fecha in inicioSemana until finSemana }
+                        
                         val existingIndex = listaData.indexOfFirst { it.tecnico.Id_t == tecnico.Id_t }
                         val dataItem = AsistenciaAdapter.AsistenciaData(tecnico, asisHoy, semanal)
                         
@@ -124,15 +190,21 @@ class AsistenciaActivity : AppCompatActivity() {
                         adapter.updateData(listaData.toList())
                     }
                 }
+                
+                // Si no hay nadie para este día, limpiar la lista
+                if (tecnicosFiltrados.isEmpty()) {
+                    adapter.updateData(emptyList())
+                }
             }
         }
     }
 
     private fun guardarAsistencia(data: AsistenciaAdapter.AsistenciaData) {
         val asis = data.asistenciaHoy ?: return
+        val fechaFinal = calendarSeleccionado.timeInMillis
         lifecycleScope.launch {
-            db.asistenciaDao().insert(asis.copy(fecha = hoy))
-            Toast.makeText(this@AsistenciaActivity, "Registro guardado", Toast.LENGTH_SHORT).show()
+            db.asistenciaDao().insert(asis.copy(fecha = fechaFinal))
+            Toast.makeText(this@AsistenciaActivity, "Registro guardado para el ${SimpleDateFormat("dd/MM", Locale.getDefault()).format(Date(fechaFinal))}", Toast.LENGTH_SHORT).show()
         }
     }
 }

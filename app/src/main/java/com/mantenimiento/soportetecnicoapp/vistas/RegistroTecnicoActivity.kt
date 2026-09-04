@@ -52,10 +52,10 @@ class RegistroTecnicoActivity : AppCompatActivity() {
             onBackPressedDispatcher.onBackPressed()
         }
 
-        // Configurar Spinner
+        // Configurar Combo Box (Exposed Dropdown Menu)
         val opciones = arrayOf("Trabajador", "Practicante")
-        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, opciones)
-        binding.spnTipoTecnico.adapter = spinnerAdapter
+        val spinnerAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, opciones)
+        binding.acTipoTecnico.setAdapter(spinnerAdapter)
 
         binding.btnTomarFotoTecnico.setOnClickListener { prepararCamara() }
         binding.btnGuardarTecnico.setOnClickListener { guardarTecnico() }
@@ -94,8 +94,7 @@ class RegistroTecnicoActivity : AppCompatActivity() {
                 binding.etInstituto.setText(t.Instituto)
                 binding.etCarrera.setText(t.Carrera)
                 
-                val pos = if (t.Tipo_trabajador == "Trabajador") 0 else 1
-                binding.spnTipoTecnico.setSelection(pos)
+                binding.acTipoTecnico.setText(t.Tipo_trabajador, false)
                 
                 t.Foto_path?.let { path ->
                     binding.ivFotoTecnico.setImageURI(Uri.fromFile(File(path)))
@@ -151,7 +150,7 @@ class RegistroTecnicoActivity : AppCompatActivity() {
         val telefono = binding.etTelefonoTecnico.text.toString().trim()
         val instituto = binding.etInstituto.text.toString().trim()
         val carrera = binding.etCarrera.text.toString().trim()
-        val tipo = binding.spnTipoTecnico.selectedItem.toString()
+        val tipo = binding.acTipoTecnico.text.toString()
         
         // Obtener días seleccionados
         val diasList = mutableListOf<String>()
