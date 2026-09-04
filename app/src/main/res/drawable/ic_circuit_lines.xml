@@ -1,0 +1,27 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="400dp"
+    android:height="800dp"
+    android:viewportWidth="400"
+    android:viewportHeight="800">
+
+    <!-- Pattern of circuit-like lines -->
+    <path
+        android:pathData="M0,50 L100,50 L150,150 L150,300 M300,0 L300,100 L350,150 L400,150 M50,800 L50,700 L150,650 L300,650 L350,550 M400,400 L300,400 L250,500 L250,600 M100,200 L50,250 L50,450 L150,550"
+        android:strokeWidth="1"
+        android:strokeColor="#20808080" />
+
+    <path
+        android:pathData="M200,800 L200,750 L250,700 L400,700 M0,350 L100,350 L120,400 M350,800 L350,750 L300,700 L0,700"
+        android:strokeWidth="1"
+        android:strokeColor="#20808080" />
+
+    <path
+        android:pathData="M50,50 L55,50 A5,5 0 1,1 45,50 A5,5 0 1,1 50,50 Z"
+        android:fillColor="#20808080" />
+    <path
+        android:pathData="M300,100 L305,100 A5,5 0 1,1 295,100 A5,5 0 1,1 300,100 Z"
+        android:fillColor="#20808080" />
+    <path
+        android:pathData="M150,300 L155,300 A5,5 0 1,1 145,300 A5,5 0 1,1 150,300 Z"
+        android:fillColor="#20808080" />
+</vector>

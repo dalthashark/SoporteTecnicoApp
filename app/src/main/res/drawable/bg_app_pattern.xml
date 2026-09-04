@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Base Color -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="?android:attr/windowBackground" />
+        </shape>
+    </item>
+    <!-- Circuit Lines Pattern -->
+    <item>
+        <bitmap
+            android:src="@drawable/ic_circuit_lines"
+            android:tileMode="repeat"
+            android:alpha="0.3"
+            android:gravity="center" />
+    </item>
+</layer-list>

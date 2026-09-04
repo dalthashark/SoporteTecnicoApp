@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.SoporteTecnicoApp">
+        <activity
+            android:name=".vistas.LoginActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".vistas.DashboardActivity"
+            android:exported="false"
+            android:label="Panel de Control" />
+        <activity
+            android:name=".vistas.MainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".vistas.ListaClientesActivity"
+            android:exported="false"
+            android:label="Lista de Clientes" />
+        <activity
+            android:name=".vistas.DetalleClienteActivity"
+            android:exported="false"
+            android:label="Detalle del Cliente" />
+        <activity
+            android:name=".vistas.LaboratorioActivity"
+            android:exported="false"
+            android:label="Inventario Laboratorio" />
+        <activity
+            android:name=".vistas.TecnicosActivity"
+            android:exported="false"
+            android:label="Lista de Personal" />
+        <activity
+            android:name=".vistas.RegistroTecnicoActivity"
+            android:exported="false"
+            android:label="Registrar Personal" />
+        <activity
+            android:name=".vistas.AsistenciaActivity"
+            android:exported="false"
+            android:label="Control Asistencia" />
+        <activity
+            android:name=".vistas.RegistroClienteActivity"
+            android:exported="false"
+            android:label="Registrar Cliente" />
+        <activity
+            android:name=".vistas.RegistroLaboratorioActivity"
+            android:exported="false"
+            android:label="Registrar Laptop Laboratorio" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+    </application>
+
+</manifest>

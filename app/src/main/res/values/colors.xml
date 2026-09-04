@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Professional Tech Palette (Blue & Orange) -->
+    <color name="blue_primary">#0D47A1</color> <!-- Navy Blue -->
+    <color name="blue_light">#5472D3</color>
+    <color name="blue_dark">#002171</color>
+
+    <color name="orange_accent">#FF6D00</color> <!-- Professional Orange -->
+    <color name="orange_light">#FF9E40</color>
+
+    <!-- Backgrounds Light -->
+    <color name="bg_light_grey">#F4F5F7</color>
+    <color name="surface_light">#FFFFFF</color>
+
+    <!-- Backgrounds Dark -->
+    <color name="bg_dark_navy">#102027</color> <!-- Deep Navy instead of Black -->
+    <color name="surface_dark_slate">#263238</color> <!-- Slate for cards -->
+
+    <!-- UI Elements -->
+    <color name="error_red">#D32F2F</color>
+    <color name="text_grey_hint">#757575</color>
+</resources>
