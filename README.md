@@ -34,7 +34,7 @@ El código fuente está estructurado de manera modular siguiendo las buenas prá
 
 1. Clona este repositorio en tu máquina local:
    ```bash
-   git clone https://github.com
+   git clone https://github.com/dalthashark/SoporteTecnicoApp.git
    ```
 2. Abre el proyecto en **Android Studio**.
 3. Sincroniza los archivos de configuración con **Gradle**.
